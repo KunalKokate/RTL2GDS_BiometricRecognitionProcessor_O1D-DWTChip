@@ -275,16 +275,137 @@ In a scan chain, registers are typically connected in alphanumeric order during 
       #full_sequential patterns                6 
   ----------------------------------------------- 
 
+### 2.2.3 Post-DFT with Full Sequential Scan Chain Insertion
+```
+Uncollapsed Stuck Fault Summary Report 
+  ----------------------------------------------- 
+  fault class                     code   #faults 
+  ------------------------------  ----  --------- 
+  Detected                         DT       2955 
+    detected_by_simulation         DS      (2481) 
+    detected_by_implication        DI       (474) 
+  Possibly detected                PT         54 
+    atpg_untestable-pos_detected   AP         (2) 
+    not_analyzed-pos_detected      NP        (52) 
+  Undetectable                     UD         86 
+    undetectable-tied              UT        (59) 
+    undetectable-blocked           UB        (27) 
+  ATPG untestable                  AU        116 
+    atpg_untestable-not_detected   AN       (116) 
+  Not detected                     ND        121 
+    not-observed                   NO       (121) 
+  ----------------------------------------------- 
+  total faults                              3332 
+  test coverage                            95.87% 
+  fault coverage                           91.50% 
+  ATPG effectiveness                       98.59% 
+  ----------------------------------------------- 
+             Pattern Summary Report 
+  ----------------------------------------------- 
+  #internal patterns                          21 
+      #full_sequential patterns               21 
+  ----------------------------------------------- 
+
 ```
 
-  ### 2.2.3 Post-DFT with Full Sequential Scan Chain Insertion
-  ### 2.2.4 Fault Simulation Results Summary
+### 2.2.4 Fault Simulation Results Summary
   ### 2.2.5 Pre-DFT Fault Simulation Report for O1D-DWT Chip
+  ```
+   TEST-T> run_fault_sim -sequential -ndetects 1
+  ------------------------------------------------------------------------------ 
+  Begin sequential fault simulation of 2861 faults on 6 external patterns. 
+  ----------------------------------------------------------- 
+  #faults    pass #faults   cum. #faults     test    process 
+  simulated  detect/total   detect/active  coverage  CPU time 
+  ---------  -------------  -------------  --------  -------- 
+  1522         1203   1522    1203   1658    44.58%      0.16 
+  2861         1128   1339    2331    530    84.83%      0.19 
+  Fault simulation completed: #faults_simulated=2861, test_coverage=84.83%, CPU time=0.20 
+```
+
   ### 2.2.6 Post-DFT Fault Simulation Report for O1D-DWT Chip
+```
+TEST-T> run_fault_sim -sequential -ndetects 1
+  ------------------------------------------------------------------------------ 
+  Begin sequential fault simulation of 2772 faults on 21 external patterns. 
+  ----------------------------------------------------------- 
+  #faults    pass #faults   cum. #faults     test    process 
+  simulated  detect/total   detect/active  coverage  CPU time 
+  ---------  -------------  -------------  --------  -------- 
+  1723         1528   1723    1528   1244    62.51%      0.13 
+  2772          953   1049    2481    291    95.87%      0.17 
+  Fault simulation completed: #faults_simulated=2772, test_coverage=95.87%, CPU time=0.19 
+```
+  
   ### 2.2.7 Analysis and Observation
+Three ATPG scan chain modes - Basic Scan, Fast Sequential Scan, and Full Sequential Scan techniques were used to determine the test coverage, fault coverage, and ATPG effectiveness.
+* Test coverage was optimized extensively while going from Pre-DFT to Post-DFT. 
+* We can comprehend that all the detected faults and ATPG effectiveness in the Pre-DFT are highly covered and optimized in Post-DFT
+* As per the reports achieved, the test coverage, fault coverage and ATPG effectiveness is lesser in Pre-DFT full sequential scan as compared to Post-DFT full sequential scan.
+* After fault simulation of Pre-DFT and Post-DFT the final test coverage was found to be improved from 84.83% to 95.87% was obtained with fault coverage of 91.50%
+
    - ## 2.3 Physical Layout of O1D-DWT Chip
-      - ### 2.3.1 Floor Planning
-      - ### 2.3.2 Placement and Legalization of Standard Cells
+For generating a Physical Layout, the following steps were taken in the Synopsys ICC2 (IC Compiler II) Tool.
+Certainly! Here are the tasks listed with bullets:
+
+- Sanity Checks on Synthesized Design
+- Floorplanning and Creating IO Pads
+- Power Planning
+- Scan DEF for I/O pads for scan chains
+- Reading parasitic information for placement
+- Coarse Placement 
+- Global routing and creating congestion map 
+- Analyzing IR Drop 
+- Sanity checks before CTS
+- Post CTS Timing check
+- Routing and Tie Cells Insertion
+- Legalizing routing of tie cells
+- Physical DRC Fixing by Spreading Wires
+- Decap and Filler Cells Insertion
+- Metal Fill Density check 
+- Routing Optimization
+- Writing GDSII Output file
+
+
+  ### 2.3.1 Floor Planning
+<p align="left">
+  <img src="https://github.com/KunalKokate/RTL2GDS_BiometricRecognitionProcessor_O1D-DWTChip/assets/42606968/388984d7-005f-47f6-9898-d86d74e9f390" width="700" alt="image35">
+</p>
+
+<p align="center">
+  <img src="https://github.com/KunalKokate/RTL2GDS_BiometricRecognitionProcessor_O1D-DWTChip/assets/42606968/b94a7150-9330-43a0-a4d5-355bbcb7ca15" width="450" alt="image35">
+</p>
+
+  
+  ### 2.3.2 Placement and Legalization of Standard Cells
+  <p align="left">
+  <img src="https://github.com/KunalKokate/RTL2GDS_BiometricRecognitionProcessor_O1D-DWTChip/assets/42606968/a64b286a-a3d4-4338-9f90-458b27ea77b0" width="700" alt="image35">
+</p>
+
+<p align="right">
+  <img src="https://github.com/KunalKokate/RTL2GDS_BiometricRecognitionProcessor_O1D-DWTChip/assets/42606968/26a425bc-80f7-4f70-851c-99e5ac99f491" width="700" alt="image35">
+</p>
+
+As per the (Fig 4) and (Fig 5), we can see the standard cells are placed in the power grid lines and very well legalized between the VDD and VSS. 
+Legalization of standard cells in the placement stage helps them to connect/route the design in an optimized way to reduce the area and wirelength of the chip.
+
+<p align="left">
+  <img src="https://github.com/KunalKokate/RTL2GDS_BiometricRecognitionProcessor_O1D-DWTChip/assets/42606968/66f03743-49c9-450f-a3e3-a716857fc06a" width="700" alt="image35">
+</p>
+
+<p align="right">
+  <img src="https://github.com/KunalKokate/RTL2GDS_BiometricRecognitionProcessor_O1D-DWTChip/assets/42606968/10a80399-e15d-40a4-a787-11729de725b4" width="700" alt="image35">
+</p>
+
+As per the (fig 6 and fig 7), we can see that filler cells were not placed due to which empty spaces between the standard cells was observed. 
+Hence, we place the Filler cells for connecting the gaps between the cells after the placement. 
+In the APR stage, the cells are placed in a row to make sure the cells get power and ground (VDD and VSS) rails. They are also used to reduce the DRC violations created by base layers and helps to maintain the power rails and VDD/VSS connection continuous.
+
+  ### 2.3.3 Scan Chain Insertion with Filler Cells
+  ### 2.3.4 CTS and Routing
+  ### 2.3.5 Final GDS Layout of O1D-DWT Component
+  ### 2.3.6 Post-Layout (Design Planning) Timing, Area and Power Reports:
+
    - ## 2.4 Sign-off Analysis for O1D-DWT Chip
       - ### 2.4.1 Post-SignOff Timing Analysis for O1D-DWT Design
       - ### 2.4.2 Post-SignOff Power Analysis for O1D-DWT Design
